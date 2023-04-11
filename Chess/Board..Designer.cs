@@ -1,7 +1,7 @@
 ﻿
 namespace Chess
 {
-    partial class Form1
+    partial class Board
     {
         /// <summary>
         /// Variable nécessaire au concepteur.
@@ -29,10 +29,18 @@ namespace Chess
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // Board
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            this.ClientSize = new System.Drawing.Size(409, 413);
+            this.Name = "Board";
+            this.Text = "Chess game";
+            this.Load += new System.EventHandler(this.Board_Load);
+            this.ResumeLayout(false);
+
         }
 
         #endregion
