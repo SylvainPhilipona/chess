@@ -24,6 +24,7 @@ namespace Chess
 
         private Button[,] board = new Button[8, 8];
         private Button selction = null;
+        private List<(int x, int y)> posssibleMoves = null;
         private List<Piece> pieces = new List<Piece>()
         {
             new Knight(0,0),
@@ -56,12 +57,12 @@ namespace Chess
                     // Init the button
                     Button btn = new Button();
                     btn.Size = new Size(CASES_SIZE, CASES_SIZE);
-                    btn.Location = new Point(y * CASES_SIZE + CASES_OFFSET, x * CASES_SIZE + CASES_OFFSET);
+                    btn.Location = new Point(x * CASES_SIZE + CASES_OFFSET, y * CASES_SIZE + CASES_OFFSET);
                     btn.BackColor = DEFAULT_COLOR;
                     btn.Tag = "";
                     btn.Click += new EventHandler(Case_Click);
 
-                    board[y, x] = btn;
+                    board[x, y] = btn;
                 }
             }
         }
@@ -80,7 +81,7 @@ namespace Chess
             ////////////int y = coords.y;
 
             ////////////// Move the piece at the new coords
-            ////////////piece.Move(x, y);
+            ////////////
 
             ////////////// Change the case tag with the piece tag
             ////////////board[x, y].Tag = piece.Tag;
@@ -93,10 +94,37 @@ namespace Chess
             Button btn = (Button)sender;
 
             // Check if it has a selection
-            if (selction != null)
+            if(selction != null)
             {
-                // Clear the old selection
-                ClearMoves(GetPieceByCase(selction).GetPossiblesMoves(8));
+                var oui = GetPieceByCase(selction).x;
+                if (oui != -1)
+                {
+                    // Clear the old selection
+                    ClearMoves(GetPieceByCase(selction).GetPossiblesMoves(8));
+                }
+            }
+            
+
+            if(posssibleMoves != null)
+            {
+                if (posssibleMoves.Contains(GetCaseCoords(btn)))
+                {
+                    // Get the piece
+                    Piece piece = GetPieceByCase(selction);
+
+                    // Move the piece
+                    (int x, int y) coords = GetCaseCoords(btn);
+                    btn.Tag = "";
+                    piece.Move(coords.x, coords.y);
+                    posssibleMoves = null;
+                    //selction = null;
+
+                    ClearBoard();
+                    foreach (Piece p in pieces)
+                    {
+                        DisplayPiece(p.x, p.y, p);
+                    }
+                }
             }
 
 
@@ -104,21 +132,23 @@ namespace Chess
             if ((string)btn.Tag != "")
             {
                 // Display the possibles moves
-                DisplayMoves(GetPieceByCase(btn).GetPossiblesMoves(8));
-                selction = btn;
+                posssibleMoves = GetPieceByCase(btn).GetPossiblesMoves(8);
+                DisplayMoves(posssibleMoves);
             }
 
-
-
-
-
-
-
+            selction = btn;
         }
 
         private Piece GetPieceByCase(Button btn)
         {
-            return pieces.Find(p => p.Tag == (string)btn.Tag);
+            try
+            {
+                return pieces[pieces.FindIndex(p => p.Tag == (string)btn.Tag)];
+            }
+            catch
+            {
+                return new Piece(-1,-1);
+            }
         }
 
         
@@ -154,6 +184,7 @@ namespace Chess
             {
                 btn.BackColor = DEFAULT_COLOR;
                 btn.Tag = "";
+                btn.Text = "";
             }
         }
 
@@ -161,7 +192,7 @@ namespace Chess
         {
             foreach ((int x, int y) move in moves)
             {
-                board[move.y, move.x].BackColor = Color.Green;
+                board[move.x, move.y].BackColor = Color.Green;
             }
         }
 
@@ -169,14 +200,14 @@ namespace Chess
         {
             foreach ((int x, int y) move in moves)
             {
-                board[move.y, move.x].BackColor = DEFAULT_COLOR;
+                board[move.x, move.y].BackColor = DEFAULT_COLOR;
             }
         }
 
         private void DisplayPiece(int x, int y, Piece piece)
         {
-            board[y, x].Tag = piece.Tag;
-            board[y, x].Text = piece.Tag;
+            board[x, y].Tag = piece.Tag;
+            board[x, y].Text = piece.Tag;
         }
 
 
