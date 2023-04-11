@@ -22,7 +22,7 @@ namespace Chess
             this.Tag = GenerateID();
         }
 
-        public List<(int x, int y)> GetPossiblesMoves(int maxSize)
+        public List<(int x, int y)> GetPossiblesMoves()
         {
             List<(int x, int y)> possiblesMoves = new List<(int x, int y)>();
 
@@ -33,7 +33,7 @@ namespace Chess
                 if(x + move.x >= 0 && y + move.y >= 0)
                 {
                     // Check if the move dosen't overflow the array
-                    if(x + move.x <= maxSize-1 && y + move.y <= maxSize - 1)
+                    if(x + move.x <= Configs.BOARD_SIZE - 1 && y + move.y <= Configs.BOARD_SIZE - 1)
                     {
                         possiblesMoves.Add((x + move.x, y + move.y));
                     }

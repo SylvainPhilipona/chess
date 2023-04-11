@@ -29,21 +29,42 @@ namespace Chess
         /// </summary>
         private void InitializeComponent()
         {
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Enabled = false;
+            this.pictureBox1.Image = global::Chess.Properties.Resources.Queen;
+            this.pictureBox1.Location = new System.Drawing.Point(66, 79);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(54, 52);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
+            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
+            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
+            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             // 
             // Board
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(409, 413);
+            this.Controls.Add(this.pictureBox1);
             this.Name = "Board";
             this.Text = "Chess game";
             this.Load += new System.EventHandler(this.Board_Load);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Board_MouseMove);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 
