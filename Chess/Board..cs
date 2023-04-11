@@ -17,12 +17,19 @@ namespace Chess
         /*********************/
         private const int CASES_SIZE = 50;
         private const int CASES_OFFSET = 5;
+        private readonly Color DEFAULT_COLOR = SystemColors.Control;
+
 
 
 
         private Button[,] board = new Button[8, 8];
-        private Piece piece;
-
+        private Button selction = null;
+        private List<Piece> pieces = new List<Piece>()
+        {
+            new Knight(0,0),
+            new Knight(3,0),
+            new Knight(4,4)
+        };
 
         public Board()
         {
@@ -34,6 +41,10 @@ namespace Chess
             // Create and dispaly the board
             InitBoard();
             DisplayBoard();
+
+            foreach (Piece piece in pieces) {
+                DisplayPiece(piece.x, piece.y, piece);
+            }
         }
 
         private void InitBoard()
@@ -46,12 +57,84 @@ namespace Chess
                     Button btn = new Button();
                     btn.Size = new Size(CASES_SIZE, CASES_SIZE);
                     btn.Location = new Point(y * CASES_SIZE + CASES_OFFSET, x * CASES_SIZE + CASES_OFFSET);
-                    btn.BackColor = SystemColors.Control;
+                    btn.BackColor = DEFAULT_COLOR;
+                    btn.Tag = "";
                     btn.Click += new EventHandler(Case_Click);
 
                     board[y, x] = btn;
                 }
             }
+        }
+
+        
+
+        private void Case_Click(object sender, EventArgs e)
+        {
+            ////////////// Clear the board
+            ////////////ClearBoard();
+
+            ////////////// Get the clicked button and get it's board indexes
+            ////////////Button btn = (Button)sender;
+            ////////////(int x, int y) coords = GetCaseCoords(btn);
+            ////////////int x = coords.x;
+            ////////////int y = coords.y;
+
+            ////////////// Move the piece at the new coords
+            ////////////piece.Move(x, y);
+
+            ////////////// Change the case tag with the piece tag
+            ////////////board[x, y].Tag = piece.Tag;
+            ////////////board[x, y].Text = piece.Tag;
+
+            ////////////// Display all possibles moves
+            ////////////DisplayMoves(piece.GetPossiblesMoves(8));
+
+            // Get the sender button
+            Button btn = (Button)sender;
+
+            // Check if it has a selection
+            if (selction != null)
+            {
+                // Clear the old selection
+                ClearMoves(GetPieceByCase(selction).GetPossiblesMoves(8));
+            }
+
+
+            // Check if the case contains a piece
+            if ((string)btn.Tag != "")
+            {
+                // Display the possibles moves
+                DisplayMoves(GetPieceByCase(btn).GetPossiblesMoves(8));
+                selction = btn;
+            }
+
+
+
+
+
+
+
+        }
+
+        private Piece GetPieceByCase(Button btn)
+        {
+            return pieces.Find(p => p.Tag == (string)btn.Tag);
+        }
+
+        
+
+
+
+
+
+
+
+        private (int x, int y) GetCaseCoords(Button btn)
+        {
+            int x = (btn.Location.X - CASES_OFFSET) / CASES_SIZE;
+            int y = (btn.Location.Y - CASES_OFFSET) / CASES_SIZE;
+
+            return (x, y);
         }
 
         private void DisplayBoard()
@@ -65,29 +148,35 @@ namespace Chess
             }
         }
 
-        private void Case_Click(object sender, EventArgs e)
-        {
-            ClearBoard();
-            Button btn = (Button)sender;
-            int x = (btn.Location.X - CASES_OFFSET) / CASES_SIZE;
-            int y = (btn.Location.Y - CASES_OFFSET) / CASES_SIZE;
-
-            piece = new Knight(x, y);
-
-            board[x, y].Tag = piece.Tag;
-            foreach ((int x, int y) move in piece.GetPossiblesMoves(8))
-            {
-                board[move.x, move.y].BackColor = Color.Green;
-            }
-        }
-
         private void ClearBoard()
         {
             foreach(Button btn in board)
             {
-                btn.BackColor = SystemColors.Control;
+                btn.BackColor = DEFAULT_COLOR;
                 btn.Tag = "";
             }
+        }
+
+        private void DisplayMoves(List<(int x, int y)> moves)
+        {
+            foreach ((int x, int y) move in moves)
+            {
+                board[move.y, move.x].BackColor = Color.Green;
+            }
+        }
+
+        private void ClearMoves(List<(int x, int y)> moves)
+        {
+            foreach ((int x, int y) move in moves)
+            {
+                board[move.y, move.x].BackColor = DEFAULT_COLOR;
+            }
+        }
+
+        private void DisplayPiece(int x, int y, Piece piece)
+        {
+            board[y, x].Tag = piece.Tag;
+            board[y, x].Text = piece.Tag;
         }
 
 

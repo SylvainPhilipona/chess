@@ -9,17 +9,17 @@ namespace Chess
     class Piece
     {
         protected List<(int x, int y)> movements;
-        protected int x;
-        protected int y;
 
-        public string Tag { get; } = "";
+        public int x { get; private set; }
+        public int y { get; private set; }
+        public string Tag { get; private set; }
 
 
-        public Piece(int x, int y, string tag)
+        public Piece(int x, int y)
         {
             this.x = x;
             this.y = y;
-            this.Tag = tag;
+            this.Tag = GenerateID();
         }
 
         public List<(int x, int y)> GetPossiblesMoves(int maxSize)
@@ -30,17 +30,29 @@ namespace Chess
             foreach((int x, int y) move in movements)
             {
                 // Check if the move isn't outside of the array
-                if(move.x >= 0 && move.y >= 0)
+                if(x + move.x >= 0 && y + move.y >= 0)
                 {
                     // Check if the move dosen't overflow the array
-                    if(move.x <= maxSize-1 && move.y <= maxSize - 1)
+                    if(x + move.x <= maxSize-1 && y + move.y <= maxSize - 1)
                     {
-                        possiblesMoves.Add(move);
+                        possiblesMoves.Add((x + move.x, y + move.y));
                     }
                 }
             }
 
             return possiblesMoves;
+        }
+
+        public void Move(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+
+        private string GenerateID()
+        {
+            // https://stackoverflow.com/questions/11313205/generate-a-unique-id
+            return Guid.NewGuid().ToString("N");
         }
 
 
