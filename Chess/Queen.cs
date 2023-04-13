@@ -8,7 +8,7 @@ namespace Chess
 {
     class Queen : Piece
     {
-        public Queen(int x, int y) : base(x, y)
+        public Queen(int x, int y, Colors color) : base(x, y, color)
         {
             base.movements = new List<(int x, int y)>();
             for (int i = -Configs.BOARD_SIZE; i < Configs.BOARD_SIZE; i++)

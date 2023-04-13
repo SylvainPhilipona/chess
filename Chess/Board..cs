@@ -24,14 +24,14 @@ namespace Chess
         private List<(int x, int y)> posssibleMoves = null;
         private List<Piece> pieces = new List<Piece>()
         {
-            new Rook(0, 7),
-            new Knight(1,7),
-            new Bishop(2,7),
-            new King(3,7),
-            new Queen(4,7),
-            new Bishop(5,7),
-            new Knight(6,7),
-            new Rook(7, 7),
+            new Rook(0, 7, Piece.Colors.White),
+            new Knight(1,7, Piece.Colors.White),
+            new Bishop(2,7, Piece.Colors.White),
+            new King(3,7, Piece.Colors.White),
+            new Queen(4,7, Piece.Colors.White),
+            new Bishop(5,7, Piece.Colors.White),
+            new Knight(6,7, Piece.Colors.White),
+            new Rook(7, 7, Piece.Colors.White),
         };
 
         public Board()
@@ -149,7 +149,7 @@ namespace Chess
             }
             catch
             {
-                return new Piece(-1,-1);
+                return new Piece(-1,-1, Piece.Colors.White);
             }
         }
 

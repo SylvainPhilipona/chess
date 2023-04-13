@@ -8,7 +8,7 @@ namespace Chess
 {
     class King : Piece
     {
-        public King(int x, int y) : base (x, y)
+        public King(int x, int y, Colors color) : base(x, y, color)
         {
             base.movements = new List<(int x, int y)>()
             {

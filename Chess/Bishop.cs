@@ -8,7 +8,7 @@ namespace Chess
 {
     class Bishop : Piece
     {
-        public Bishop(int x, int y) : base(x, y)
+        public Bishop(int x, int y, Colors color) : base(x, y, color)
         {
             base.movements = new List<(int x, int y)>();
 

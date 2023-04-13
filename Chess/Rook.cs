@@ -8,7 +8,7 @@ namespace Chess
 {
     class Rook : Piece
     {
-        public Rook(int x, int y) : base (x, y)
+        public Rook(int x, int y, Colors color) : base (x, y, color)
         {
             base.movements = new List<(int x, int y)>();
             for (int i = -Configs.BOARD_SIZE; i < Configs.BOARD_SIZE; i++)

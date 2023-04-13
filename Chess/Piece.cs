@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chess
 {
     class Piece
     {
         protected List<(int x, int y)> movements;
+        public enum Colors { White, Black}
+
 
         public int x { get; private set; }
         public int y { get; private set; }
+        public Colors Color { get; private set; }
         public string Tag { get; private set; }
 
 
-        public Piece(int x, int y)
+        public Piece(int x, int y, Colors color)
         {
             this.x = x;
             this.y = y;
+            this.Color = color;
             this.Tag = GenerateID();
         }
 
